@@ -1,5 +1,5 @@
-const referenceCard = require('./cards.json').reference_card;
-const roleActionCards = require('./cards.json').role_action_cards;
+const referenceCard = require('./data/cards.json').reference_card;
+const roleActionCards = require('./data/cards.json').role_action_cards;
 
 function isValidNumberOfPlayers(playerCount) {
     const MIN_PLAYERS = 3;
@@ -19,7 +19,7 @@ function getRandomSet(numberOfPlayers) {
     const roles = referenceCard.axis_types;
     const roleCounts = referenceCard.values[numberOfPlayers];
 
-    let selectedCards = [];
+    let selectedCards = {};
 
     roles.forEach(role => {
         let count = roleCounts[role];
@@ -38,11 +38,11 @@ function getRandomSet(numberOfPlayers) {
             let shuffledCards = cardsToAdd.sort(() => 0.5 - Math.random());
 
             // Add the required number of cards to the selectedCards array
-            selectedCards = selectedCards.concat(shuffledCards.slice(0, count));
+            selectedCards[role] = shuffledCards.slice(0, count).map(card => card.name);
         }
     });
 
-    return selectedCards.map(card => card.name);
+    return selectedCards;
 }
 
 /***************************************************
@@ -102,4 +102,42 @@ function getBeginnerSet(numberOfPlayers) {
     return selectedCards.map(card => card.name);
 }
 
-module.exports = { isValidNumberOfPlayers, getBeginnerSet, getRandomSet };
+/***************************************************
+ * validateSelectedCards(selectedCards, numberOfPlayers)
+ * returns true if the selected cards are valid for the number of players, false otherwise.
+ ***************************************************/
+function validateSelectedCards(selectedCards, numberOfPlayers) {
+    if (!isValidNumberOfPlayers(numberOfPlayers)) {
+        throw new Error("Invalid number of players");
+    }
+
+    const roles = referenceCard.axis_types;
+    const roleCounts = referenceCard.values[numberOfPlayers];
+    // Create a map to count the number of selected cards for each role
+    let selectedCardsMap = {};
+
+    // Iterate over each selected card name
+    selectedCards.forEach(cardName => {
+        // Iterate over each role in the roleActionCards
+        for (let role in roleActionCards) {
+            // Check if the card name exists in the current role's cards
+            if (roleActionCards[role].some(card => card.name === cardName)) {
+                // Initialize the count for the role if it doesn't exist
+                if (!selectedCardsMap[role]) {
+                    selectedCardsMap[role] = 0;
+                }
+                // Increment the count for the role
+                selectedCardsMap[role]++;
+                break;
+            }
+        }
+    });
+
+    return roles.every(role => {
+        let count = roleCounts[role];
+        let selectedCount = selectedCardsMap[role] || 0;
+        return count === selectedCount;
+    });
+}
+
+module.exports = { isValidNumberOfPlayers, getBeginnerSet, getRandomSet, validateSelectedCards };

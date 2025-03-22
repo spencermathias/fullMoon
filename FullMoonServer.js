@@ -2,13 +2,14 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const { isValidNumberOfPlayers, getBeginnerSet, getRandomSet } = require('./FullMoonFunctions');
-const { validateSelectedCards } = require('./FullMoonSharedFunctions');
+const { validateSelectedCards } = require('./FullMoonFunctions');
+const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 let gameState = {
     state: 'lobby',
@@ -18,31 +19,30 @@ let gameState = {
     requiredPlayers: null
 };
 
-app.use(express.static('public'));
+app.use(express.static('htmlFullMoon'));
+app.use('/data', express.static(path.join(__dirname, 'data')));
 
 io.on('connection', (socket) => {
     console.log('New client connected');
 
     socket.on('joinGame', (playerName) => {
+        console.log('Player joined:', playerName);
         if (gameState.state === 'lobby') {
             gameState.players.push({ id: socket.id, name: playerName, roleCards: [], coins: 2 });
-            io.emit('updateGameState', gameState);
-
-            if (isValidNumberOfPlayers(gameState.players.length)) {
-                gameState.state = 'choosing';
-                io.emit('chooseGameType', gameState);
-            }
+            gameState.state = 'choosing';
+            io.emit('chooseGameType', gameState);
         }
     });
 
     socket.on('chooseGameType', (gameChoice) => {
+        console.log('Game choice:', gameChoice);
         if (gameState.state === 'choosing') {
             gameState.requiredPlayers = gameChoice.requiredPlayers;
 
             if (gameChoice.gameType === 'beginner') {
-                gameState.selectedCards = getBeginnerSet();
+                gameState.selectedCards = getBeginnerSet(gameChoice.requiredPlayers);
             } else if (gameChoice.gameType === 'random') {
-                gameState.selectedCards = getRandomSet();
+                gameState.selectedCards = getRandomSet(gameChoice.requiredPlayers);
             } else if (gameChoice.gameType === 'blank') {
                 gameState.selectedCards = [];
             }

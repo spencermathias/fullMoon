@@ -3,6 +3,136 @@
         "income",
         "lynching"
     ],
+    "role_cards": {
+        "lone Wolf": { 
+            "type": "werewolves", 
+            "index": 0 
+        },
+        "big bad wolf": { 
+            "type": "werewolves", 
+            "index": 1 
+        },
+        "werewolf": { 
+            "type": "werewolves", 
+            "index": 2 
+        },
+        "vampire": { 
+            "type": "force of evil", 
+            "index": 0 
+        },
+        "minion": { 
+            "type": "force of evil", 
+            "index": 1 
+        },
+        "sorceress": { 
+            "type": "force of evil", 
+            "index": 2 
+        },
+        "hoodlum": { 
+            "type": "force of evil", 
+            "index": 3 
+        },
+        "cursed": { 
+            "type": "villagers", 
+            "index": 0 
+        },
+        "villager": { 
+            "type": "villagers", 
+            "index": 1 
+        },
+        "spellCaster": { 
+            "type": "reaction", 
+            "index": 0 
+        },
+        "disease": { 
+            "type": "reaction", 
+            "index": 1 
+        },
+        "prince": { 
+            "type": "reaction", 
+            "index": 2 
+        },
+        "mayor": { 
+            "type": "reaction", 
+            "index": 3 
+        },
+        "pacifist": { 
+            "type": "reaction", 
+            "index": 4 
+        },
+        "Hunter": { 
+            "type": "reaction", 
+            "index": 5 
+        },
+        "village idiot": { 
+            "type": "special", 
+            "index": 0 
+        },
+        "lycan": { 
+            "type": "special", 
+            "index": 1 
+        },
+        "drunk": { 
+            "type": "special", 
+            "index": 2 
+        },
+        "Cupid": { 
+            "type": "special", 
+            "index": 3 
+        },
+        "old hag": { 
+            "type": "special", 
+            "index": 4 
+        },
+        "tax collector": { 
+            "type": "special", 
+            "index": 5 
+        },
+        "merchant": { 
+            "type": "special", 
+            "index": 6 
+        },
+        "seer": { 
+            "type": "knowledge", 
+            "index": 0 
+        },
+        "apprentice": { 
+            "type": "knowledge", 
+            "index": 1 
+        },
+        "troublemaker": { 
+            "type": "knowledge", 
+            "index": 2 
+        },
+        "private_investigator": { 
+            "type": "knowledge", 
+            "index": 3 
+        },
+        "doppelganger": { 
+            "type": "identity", 
+            "index": 0 
+        },
+        "witch": { 
+            "type": "identity", 
+            "index": 1 
+        },
+        "cult_leader": { 
+            "type": "identity", 
+            "index": 2 
+        },
+        "tanner": { 
+            "type": "tanner", 
+            "index": 0 
+        },
+        "mason": { 
+            "type": "escape", 
+            "index": 0 
+        },
+        "tough_guy": { 
+            "type": "escape", 
+            "index": 1 
+        }
+    },
     "role_action_cards": {
         "werewolves": [
             {
