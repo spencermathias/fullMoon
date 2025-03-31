@@ -76,7 +76,7 @@ function getBeginnerSet(numberOfPlayers) {
     const roles = referenceCard.axis_types;
     const roleCounts = referenceCard.values[numberOfPlayers];
 
-    let selectedCards = [];
+    let selectedCards = {};
 
     roles.forEach(role => {
         let count = roleCounts[role];
@@ -95,11 +95,11 @@ function getBeginnerSet(numberOfPlayers) {
             let listOfBeginnerCards = cardsToAdd.filter(card => beginnerCards.includes(card.name));
 
             // Add the required number of cards to the selectedCards array
-            selectedCards = selectedCards.concat(listOfBeginnerCards.slice(0, count));
+            selectedCards[role] = listOfBeginnerCards.slice(0, count).map(card => card.name);
         }
     });
 
-    return selectedCards.map(card => card.name);
+    return selectedCards
 }
 
 /***************************************************
@@ -113,31 +113,41 @@ function validateSelectedCards(selectedCards, numberOfPlayers) {
 
     const roles = referenceCard.axis_types;
     const roleCounts = referenceCard.values[numberOfPlayers];
-    // Create a map to count the number of selected cards for each role
-    let selectedCardsMap = {};
+    
+    // Iterate over each selected card type
+    for (const cardType of Object.keys(selectedCards)) {
+        let selectedCardsMap = {};
+        let cards = selectedCards[cardType];
 
-    // Iterate over each selected card name
-    selectedCards.forEach(cardName => {
-        // Iterate over each role in the roleActionCards
-        for (let role in roleActionCards) {
-            // Check if the card name exists in the current role's cards
-            if (roleActionCards[role].some(card => card.name === cardName)) {
-                // Initialize the count for the role if it doesn't exist
-                if (!selectedCardsMap[role]) {
-                    selectedCardsMap[role] = 0;
+        if (cards.length === roleCounts[cardType]) {
+            for (const cardName of cards) {
+                if (!roleActionCards[cardType]) {
+                    console.log(`Invalid card type: ${cardType}`);
+                    return false; // Exits the parent function
                 }
-                // Increment the count for the role
-                selectedCardsMap[role]++;
-                break;
+                if (!roleActionCards[cardType].some(card => card.name === cardName)) {
+                    console.log(`Invalid card name: ${cardName} for type: ${cardType}`);
+                    return false; // Exits the parent function
+                }
+                selectedCardsMap[cardName] = (selectedCardsMap[cardName] || 0) + 1;
             }
-        }
-    });
 
-    return roles.every(role => {
-        let count = roleCounts[role];
-        let selectedCount = selectedCardsMap[role] || 0;
-        return count === selectedCount;
-    });
+            for (const cardName of Object.keys(selectedCardsMap)) {
+                let count = selectedCardsMap[cardName];
+                let availableCard = roleActionCards[cardType][cardName];
+                if (availableCard && count > availableCard.quantity) {
+                    console.log(`Too many of card ${cardName} selected for type: ${cardType}`);
+                    return false; // Exits the parent function
+                }
+            }
+        } else {
+            console.log(`Invalid number of cards for type: ${cardType}. Expected ${roleCounts[cardType]}, got ${cards.length}`);
+            return false; // Exits the parent function
+        }
+    }
+
+    // If all checks pass, return true
+    return true;
 }
 
 module.exports = { isValidNumberOfPlayers, getBeginnerSet, getRandomSet, validateSelectedCards };

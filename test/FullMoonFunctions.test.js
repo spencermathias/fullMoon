@@ -95,20 +95,20 @@ describe('Full Moon Functions', () => {
     });
     describe('getBeginnerSet', () => {
         it('should return the correct beginner set for getBeginnerSet(4)', () => {
-            const beginnerSet = getBeginnerSet(4);
+            const beginnerSet = Object.values(getBeginnerSet(4)).reduce((acc, role) => acc.concat(role), []);
             console.log(beginnerSet);
             assert.equal(beginnerSet.length, 10, 'Expected beginner set to have 10 cards');
             assert.ok(['werewolf', 'minion', 'villager', 'cursed', 'doppelganger','prince', 'mason', 'tanner','drunk', 'lycan'].every(role => beginnerSet.includes(role)), 'Expected beginner set to include all required roles');
         });
         it('should return the correct beginner set for getBeginnerSet(3)', () => {
-            const beginnerSet = getBeginnerSet(3);
+            const beginnerSet = Object.values(getBeginnerSet(3)).reduce((acc, role) => acc.concat(role), []);
             console.log(beginnerSet);
             assert.equal(beginnerSet.length, 7, 'Expected beginner set to have 7 cards');
             assert.ok(['werewolf', 'villager', 'cursed', 'doppelganger','tanner', 'mason', 'lycan'].every(role => beginnerSet.includes(role)), 'Expected beginner set to include all required roles');
         });
         it('should return the correct beginner set for getBeginnerSet(5)', () => {
             console.log(getBeginnerSet(10));
-            const beginnerSet = getBeginnerSet(5);
+            const beginnerSet = Object.values(getBeginnerSet(5)).reduce((acc, role) => acc.concat(role), []);
             console.log(beginnerSet);
             assert.equal(beginnerSet.length, 13, 'Expected beginner set to have 13 cards');
             assert.ok(['werewolf', 'minion', 'villager', 'cursed', 'doppelganger','prince', 'mason', 'tanner','drunk', 'lycan'].every(role => beginnerSet.includes(role)), 'Expected beginner set to include all required roles');
@@ -117,15 +117,13 @@ describe('Full Moon Functions', () => {
     describe('validateSelectedCards', () => {
         it('should return true for validateSelectedCards(getRandomSet(3), 3)', () => {
             let randomSet = getRandomSet(3);
-            let flattenedSet = Object.values(randomSet).flat();
-            let value = validateSelectedCards(flattenedSet, 3);
+            let value = validateSelectedCards(randomSet, 3);
             console.log(value);
             assert.ok(value, 'Expected validation to pass for 3 players');
         });
         it('should return true for validateSelectedCards(getRandomSet(10), 10)', () => {
             let randomSet = getRandomSet(10);
-            let flattenedSet = Object.values(randomSet).flat();
-            let value = validateSelectedCards(flattenedSet, 10);
+            let value = validateSelectedCards(randomSet, 10);
             console.log(value);
             assert.ok(value, 'Expected validation to pass for 10 players');
         });

@@ -17,19 +17,19 @@
             "index": 2 
         },
         "vampire": { 
-            "type": "force of evil", 
+            "type": "force_of_evil", 
             "index": 0 
         },
         "minion": { 
-            "type": "force of evil", 
+            "type": "force_of_evil", 
             "index": 1 
         },
         "sorceress": { 
-            "type": "force of evil", 
+            "type": "force_of_evil", 
             "index": 2 
         },
         "hoodlum": { 
-            "type": "force of evil", 
+            "type": "force_of_evil", 
             "index": 3 
         },
         "cursed": { 
@@ -154,28 +154,28 @@
                 "quantity": 3
             }
         ],
-        "force of evil": [
+        "force_of_evil": [
             {
                 "name": "vampire",
-                "team": "force of evil",
+                "team": "force_of_evil",
                 "description": "A vampire that works against the villagers.",
                 "quantity": 1
             },
             {
                 "name": "minion",
-                "team": "force of evil",
+                "team": "force_of_evil",
                 "description": "A minion that assists the werewolves.",
                 "quantity": 1
             },
             {
                 "name": "sorceress",
-                "team": "force of evil",
+                "team": "force_of_evil",
                 "description": "A sorceress with dark powers.",
                 "quantity": 1
             },
             {
                 "name": "hoodlum",
-                "team": "force of evil",
+                "team": "force_of_evil",
                 "description": "A hoodlum causing trouble in the village.",
                 "quantity": 1
             }
@@ -348,7 +348,7 @@
     "reference_card":{
         "axis_types": [
             "werewolves",
-            "force of evil",
+            "force_of_evil",
             "villagers",
             "identity",
             "knowledge",
@@ -361,7 +361,7 @@
         "values": {
             "3": {
                 "werewolves": 1,
-                "force of evil": 0,
+                "force_of_evil": 0,
                 "villagers": 2,
                 "identity": 1,
                 "knowledge": 0,
@@ -372,7 +372,7 @@
             },
             "4": {
                 "werewolves": 1,
-                "force of evil": 1,
+                "force_of_evil": 1,
                 "villagers": 2,
                 "identity": 1,
                 "knowledge": 0,
@@ -383,7 +383,7 @@
             },
             "5": {
                 "werewolves": 1,
-                "force of evil": 1,
+                "force_of_evil": 1,
                 "villagers": 2,
                 "identity": 1,
                 "knowledge": 1,
@@ -394,7 +394,7 @@
             },
             "6": {
                 "werewolves": 2,
-                "force of evil": 1,
+                "force_of_evil": 1,
                 "villagers": 3,
                 "identity": 1,
                 "knowledge": 2,
@@ -405,7 +405,7 @@
             },
             "7": {
                 "werewolves": 2,
-                "force of evil": 1,
+                "force_of_evil": 1,
                 "villagers": 3,
                 "identity": 2,
                 "knowledge": 2,
@@ -416,7 +416,7 @@
             },
             "8": {
                 "werewolves": 3,
-                "force of evil": 1,
+                "force_of_evil": 1,
                 "villagers": 3,
                 "identity": 2,
                 "knowledge": 2,
@@ -427,7 +427,7 @@
             },
             "9": {
                 "werewolves": 3,
-                "force of evil": 1,
+                "force_of_evil": 1,
                 "villagers": 4,
                 "identity": 2,
                 "knowledge": 2,
@@ -438,7 +438,7 @@
             },
             "10": {
                 "werewolves": 3,
-                "force of evil": 2,
+                "force_of_evil": 2,
                 "villagers": 4,
                 "identity": 2,
                 "knowledge": 2,

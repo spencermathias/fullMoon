@@ -1,15 +1,17 @@
-/* for debugging purposes only 
-function io() {
-    return {
-        emit:function (params) {
-            console.log(params)
-        },
-        on:function(params,data) {
-            console.log(params,':',data)
+//for debugging purposes only 
+if(true){
+    function io() {
+        return {
+            emit:function (params) {
+                console.log(params)
+            },
+            on:function(params,data) {
+                console.log(params,':',data)
+            }
         }
     }
 }
-*/
+
 document.getElementById('submit').addEventListener('click', function () {
     const data = {
         message: document.getElementById('message').value
@@ -27,11 +29,16 @@ function titleFunction(){
 const socket = io();
 
 let allCards = [];
+fetch('https://fakestoreapi.com/products/1')
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
 
 // Fetch cards.json from the server
 fetch('./data/cards.json')
     .then(response => response.json())
     .then(data => {
+        console.log('Cards fetched:', data);
         allCards = data;
     })
     .catch(error => console.error('Error fetching cards:', error));
@@ -49,7 +56,7 @@ socket.on('invalidSelection', handleInvalidSelection);
 
 // Function to handle 'updateGameState'
 function handleUpdateGameState(gameState) {
-    document.getElementById('gameState').innerText = JSON.stringify(gameState, null, 2);
+    document.getElementById('gameActions').innerText = JSON.stringify(gameState, null, 2);
     if (gameState.state === 'choosing') {
         document.getElementById('gameActions').style.display = 'block';
     } else {
@@ -82,7 +89,7 @@ function handleChooseGameType() {
     playerCountInput.id = 'playerCountInput';
     playerCountInput.min = 3;
     playerCountInput.max = 10;
-    playerCountInput.placeholder = 'Number of Players';
+    playerCountInput.value = 4; // Default value';
     gameTypeContainer.appendChild(playerCountInput);
 
     // Create a submit button
@@ -103,51 +110,77 @@ function handleChooseGameType() {
 }
 
 // Function to handle 'updateSelectedCards'
-function handleUpdateSelectedCards(gameState) {
-    console.log('Selected cards:', gameState);
+
+/**
+ * Updates the game board to display the selected cards grouped by their types.
+ * 
+ * This function hides the title element, clears the game board, and dynamically
+ * generates sections for each card type. Each section contains the selected cards
+ * of that type and empty slots for cards that still need to be chosen.
+ * 
+ * @param {Object} cardState - an object containing The state of the selected cards names keyed by their type.
+ * @param {number} requestedPlayers - The number of players required for the game.
+ * 
+ * @returns {void} This function does not return a value. It directly manipulates the DOM.
+ */
+function handleUpdateSelectedCards(cardState) {
+    const requestedPlayers = 4; // Example value, replace with actual logic to get the number of players
+    console.log('Selected cards:', cardState);
+    // Hide the title
+    document.getElementById('title').style.display = 'none';
+
     const gameBoard = document.getElementById('gameBoard');
     gameBoard.innerHTML = ''; // Clear previous content
 
-    // Add a title
-    const title = document.createElement('h2');
-    title.innerText = 'Selected Cards';
-    gameBoard.appendChild(title);
+    // Iterate over each card type
+    Object.keys(allCards.role_action_cards).forEach((cardType) => {
+        const cardTypeSection = document.createElement('div');
+        cardTypeSection.className = 'card-type-section';
 
-    // Display each selected card with its description
-    gameState.selectedCards.forEach((card) => {
-        const cardType = allCards.role_cards[card];
-        const cardDetails = allCards.role_action_cards[cardType.type][cardType.index]; // Assuming the first card is the one to display
-        const cardDiv = document.createElement('div');
-        cardDiv.className = 'card';
+        // Add a header for the card type
+        const cardTypeHeader = document.createElement('h3');
+        cardTypeHeader.innerText = cardType.charAt(0).toUpperCase() + cardType.slice(1);
+        cardTypeHeader.addEventListener('click', () => {
+            // Toggle visibility of the card type section
+            const cardContainer = cardTypeSection.querySelector('.card-container');
+            cardContainer.style.display = cardContainer.style.display === 'none' ? 'block' : 'none';
+        });
+        cardTypeSection.appendChild(cardTypeHeader);
 
-        const cardName = document.createElement('h3');
-        cardName.innerText = cardDetails.name;
-        cardDiv.appendChild(cardName);
+        // Container for cards of this type
+        const cardContainer = document.createElement('div');
+        cardContainer.className = 'card-container';
+        cardContainer.style.display = 'none'; // Initially collapsed
 
-        const cardDescription = document.createElement('p');
-        cardDescription.innerText = cardDetails.description;
-        cardDiv.appendChild(cardDescription);
+        // Display selected cards of this type
+        cardState[cardType].forEach((card) => {
+            const cardDetails = allCards.role_action_cards[cardType][allCards.role_cards[card].index];
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'card';
 
-        // Dropdown to select a different card
-        const dropdown = document.createElement('select');
-        dropdown.addEventListener('change', (event) => {
-            const newCardName = event.target.value;
-            socket.emit('updateCardSelection', { oldCard: card, newCard: newCardName });
+            const cardName = document.createElement('h4');
+            cardName.innerText = cardDetails.name;
+            cardDiv.appendChild(cardName);
+
+            const cardDescription = document.createElement('p');
+            cardDescription.innerText = cardDetails.description;
+            cardDiv.appendChild(cardDescription);
+
+            cardContainer.appendChild(cardDiv);
         });
 
-        // Populate dropdown with all available cards
-        allCards.role_action_cards[cardType.type].forEach((availableCard) => {
-            const option = document.createElement('option');
-            option.value = availableCard.name;
-            option.text = availableCard.name;
-            if (availableCard.name === card.name) {
-                option.selected = true;
-            }
-            dropdown.appendChild(option);
-        });
+        // Add empty slots for cards that need to be chosen
+        const requiredPlayers = requestedPlayers || 0;
+        const emptySlots = requiredPlayers - selectedCards.length;
+        for (let i = 0; i < emptySlots; i++) {
+            const emptySlot = document.createElement('div');
+            emptySlot.className = 'card empty-slot';
+            emptySlot.innerText = 'Empty Slot';
+            cardContainer.appendChild(emptySlot);
+        }
 
-        cardDiv.appendChild(dropdown);
-        gameBoard.appendChild(cardDiv);
+        cardTypeSection.appendChild(cardContainer);
+        gameBoard.appendChild(cardTypeSection);
     });
 }
 

@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 8080;
 let gameState = {
     state: 'lobby',
     players: [],
-    selectedCards: null,
+    selectedCards: {},
     readyPlayers: [],
     requiredPlayers: null
 };
@@ -31,7 +31,10 @@ io.on('connection', (socket) => {
             gameState.players.push({ id: socket.id, name: playerName, roleCards: [], coins: 2 });
             gameState.state = 'choosing';
             io.emit('chooseGameType', gameState);
+        }else{
+            io.emit('updateGameState', gameState);
         }
+
     });
 
     socket.on('chooseGameType', (gameChoice) => {
@@ -44,10 +47,10 @@ io.on('connection', (socket) => {
             } else if (gameChoice.gameType === 'random') {
                 gameState.selectedCards = getRandomSet(gameChoice.requiredPlayers);
             } else if (gameChoice.gameType === 'blank') {
-                gameState.selectedCards = [];
+                gameState.selectedCards = {};
             }
             gameState.state = 'selecting';
-            io.emit('startSelectingCards', gameState);
+            io.emit('startSelectingCards', gameState.selectedCards);
         }
     });
 
