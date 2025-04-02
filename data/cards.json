@@ -4,348 +4,319 @@
         "lynching"
     ],
     "role_cards": {
-        "lone Wolf": { 
+        "lone_Wolf": { 
+            "name": "lone Wolf",
             "type": "werewolves", 
-            "index": 0 
+            "index": 0,
+            "team": "werewolves",
+            "description": "A lone wolf that can win alongside the werewolf team but not with other werewolves alive.",
+            "quantity": 1,
+            "picture": "loneWolf.png"
         },
-        "big bad wolf": { 
+        "big_bad_wolf": { 
+            "name": "big bad wolf",
             "type": "werewolves", 
-            "index": 1 
+            "index": 1,
+            "team": "werewolves",
+            "description": "A powerful werewolf that leads the pack.",
+            "quantity": 1,
+            "picture": "bigBadWolf.png"
         },
         "werewolf": { 
+            "name": "werewolf",
             "type": "werewolves", 
-            "index": 2 
+            "index": 2,
+            "team": "werewolves",
+            "description": "A standard werewolf.",
+            "quantity": 3,
+            "picture": "./pictures/werewolf.png"
         },
         "vampire": { 
-            "type": "force_of_evil", 
-            "index": 0 
+            "name": "vampire",
+            "type": "force of evil", 
+            "index": 0,
+            "team": "force of evil",
+            "description": "A vampire that works against the villagers.",
+            "quantity": 1
         },
         "minion": { 
-            "type": "force_of_evil", 
-            "index": 1 
+            "name": "minion",
+            "type": "force of evil", 
+            "index": 1,
+            "team": "force of evil",
+            "description": "A minion that assists the werewolves.",
+            "quantity": 1
         },
         "sorceress": { 
-            "type": "force_of_evil", 
-            "index": 2 
+            "name": "sorceress",
+            "type": "force of evil", 
+            "index": 2,
+            "team": "force of evil",
+            "description": "A sorceress with dark powers.",
+            "quantity": 1
         },
         "hoodlum": { 
-            "type": "force_of_evil", 
-            "index": 3 
+            "name": "hoodlum",
+            "type": "force of evil", 
+            "index": 3,
+            "team": "force of evil",
+            "description": "A hoodlum causing trouble in the village.",
+            "quantity": 1
         },
         "cursed": { 
+            "name": "cursed",
             "type": "villagers", 
-            "index": 0 
+            "index": 0,
+            "team": "villager",
+            "description": "A villager cursed by dark magic.",
+            "quantity": 1
         },
         "villager": { 
+            "name": "villager",
             "type": "villagers", 
-            "index": 1 
+            "index": 1,
+            "team": "villager",
+            "description": "A regular villager.",
+            "quantity": 3
         },
         "spellCaster": { 
+            "name": "spellCaster",
             "type": "reaction", 
-            "index": 0 
+            "index": 0,
+            "team": "villager",
+            "description": "A spellcaster with reaction abilities.",
+            "quantity": 1
         },
         "disease": { 
+            "name": "disease",
             "type": "reaction", 
-            "index": 1 
+            "index": 1,
+            "team": "villager",
+            "description": "A villager spreading disease.",
+            "quantity": 1
         },
         "prince": { 
+            "name": "prince",
             "type": "reaction", 
-            "index": 2 
+            "index": 2,
+            "team": "villager",
+            "description": "A prince with special abilities.",
+            "quantity": 1
         },
         "mayor": { 
+            "name": "mayor",
             "type": "reaction", 
-            "index": 3 
+            "index": 3,
+            "team": "villager",
+            "description": "The mayor of the village.",
+            "quantity": 1
         },
         "pacifist": { 
+            "name": "pacifist",
             "type": "reaction", 
-            "index": 4 
+            "index": 4,
+            "team": "villager",
+            "description": "A pacifist who avoids conflict.",
+            "quantity": 1
         },
         "Hunter": { 
+            "name": "Hunter",
             "type": "reaction", 
-            "index": 5 
+            "index": 5,
+            "team": "villager",
+            "description": "A hunter skilled in tracking.",
+            "quantity": 1
         },
-        "village idiot": { 
+        "village_idiot": { 
+            "name": "village idiot",
             "type": "special", 
-            "index": 0 
+            "index": 0,
+            "team": "villager",
+            "description": "A village idiot with unique abilities.",
+            "quantity": 1
         },
         "lycan": { 
+            "name": "lycan",
             "type": "special", 
-            "index": 1 
+            "index": 1,
+            "team": "villager",
+            "description": "A villager with lichen abilities.",
+            "quantity": 1
         },
         "drunk": { 
+            "name": "drunk",
             "type": "special", 
-            "index": 2 
+            "index": 2,
+            "team": "villager",
+            "description": "A drunk villager.",
+            "quantity": 1
         },
         "Cupid": { 
+            "name": "Cupid",
             "type": "special", 
-            "index": 3 
+            "index": 3,
+            "team": "villager",
+            "description": "Cupid who can make others fall in love.",
+            "quantity": 1
         },
-        "old hag": { 
+        "old_hag": { 
+            "name": "old hag",
             "type": "special", 
-            "index": 4 
+            "index": 4,
+            "team": "villager",
+            "description": "An old hag with mysterious powers.",
+            "quantity": 1
         },
-        "tax collector": { 
+        "tax_collector": { 
+            "name": "tax collector",
             "type": "special", 
-            "index": 5 
+            "index": 5,
+            "team": "villager",
+            "description": "A tax collector in the village.",
+            "quantity": 1
         },
         "merchant": { 
+            "name": "merchant",
             "type": "special", 
-            "index": 6 
+            "index": 6,
+            "team": "villager",
+            "description": "A merchant trading goods.",
+            "quantity": 1
         },
         "seer": { 
+            "name": "seer",
             "type": "knowledge", 
-            "index": 0 
+            "index": 0,
+            "team": "villager",
+            "description": "A seer with the ability to foresee events.",
+            "quantity": 1
         },
         "apprentice": { 
+            "name": "apprentice",
             "type": "knowledge", 
-            "index": 1 
+            "index": 1,
+            "team": "villager",
+            "description": "An apprentice learning from the seer.",
+            "quantity": 1
         },
         "troublemaker": { 
+            "name": "troublemaker",
             "type": "knowledge", 
-            "index": 2 
+            "index": 2,
+            "team": "villager",
+            "description": "A troublemaker causing chaos.",
+            "quantity": 1
         },
         "private_investigator": { 
+            "name": "private_investigator",
             "type": "knowledge", 
-            "index": 3 
+            "index": 3,
+            "team": "villager",
+            "description": "A private investigator uncovering secrets.",
+            "quantity": 1
         },
         "doppelganger": { 
+            "name": "doppelganger",
             "type": "identity", 
-            "index": 0 
+            "index": 0,
+            "team": "villager",
+            "description": "A doppelganger that can mimic others.",
+            "quantity": 2
         },
         "witch": { 
+            "name": "witch",
             "type": "identity", 
-            "index": 1 
+            "index": 1,
+            "team": "villager",
+            "description": "A witch with magical powers.",
+            "quantity": 1
         },
         "cult_leader": { 
+            "name": "cult_leader",
             "type": "identity", 
-            "index": 2 
+            "index": 2,
+            "team": "villager",
+            "description": "A cult leader with followers.",
+            "quantity": 1
         },
         "tanner": { 
+            "name": "tanner",
             "type": "tanner", 
-            "index": 0 
+            "index": 0,
+            "team": "tanner",
+            "description": "A tanner who wins by being killed.",
+            "quantity": 1
         },
         "mason": { 
+            "name": "mason",
             "type": "escape", 
-            "index": 0 
+            "index": 0,
+            "team": "villager",
+            "description": "A mason with escape abilities.",
+            "quantity": 3
         },
         "tough_guy": { 
+            "name": "tough_guy",
             "type": "escape", 
-            "index": 1 
+            "index": 1,
+            "team": "villager",
+            "description": "A tough guy who can withstand attacks.",
+            "quantity": 1
         }
     },
     "role_action_cards": {
         "werewolves": [
-            {
-                "name": "lone Wolf",
-                "team": "werewolves",
-                "description": "A lone wolf that can win alongside the werewolf team but not with other werewolves alive.",
-                "quantity": 1
-            },
-            {
-                "name": "big bad wolf",
-                "team": "werewolves",
-                "description": "A powerful werewolf that leads the pack.",
-                "quantity": 1
-            },
-            {
-                "name": "werewolf",
-                "team": "werewolves",
-                "description": "A standard werewolf.",
-                "quantity": 3
-            }
+            { "name": "lone_Wolf", "quantity": 1 },
+            { "name": "big_bad_wolf", "quantity": 1 },
+            { "name": "werewolf", "quantity": 3 }
         ],
         "force_of_evil": [
-            {
-                "name": "vampire",
-                "team": "force_of_evil",
-                "description": "A vampire that works against the villagers.",
-                "quantity": 1
-            },
-            {
-                "name": "minion",
-                "team": "force_of_evil",
-                "description": "A minion that assists the werewolves.",
-                "quantity": 1
-            },
-            {
-                "name": "sorceress",
-                "team": "force_of_evil",
-                "description": "A sorceress with dark powers.",
-                "quantity": 1
-            },
-            {
-                "name": "hoodlum",
-                "team": "force_of_evil",
-                "description": "A hoodlum causing trouble in the village.",
-                "quantity": 1
-            }
+            { "name": "vampire", "quantity": 1 },
+            { "name": "minion", "quantity": 1 },
+            { "name": "sorceress", "quantity": 1 },
+            { "name": "hoodlum", "quantity": 1 }
         ],
         "villagers": [
-            {
-                "name": "cursed",
-                "team": "villager",
-                "description": "A villager cursed by dark magic.",
-                "quantity": 1
-            },
-            {
-                "name": "villager",
-                "team": "villager",
-                "description": "A regular villager.",
-                "quantity": 3
-            }
+            { "name": "cursed", "quantity": 1 },
+            { "name": "villager", "quantity": 3 }
         ],
         "reaction": [
-            {
-                "name": "spellCaster",
-                "team": "villager",
-                "description": "A spellcaster with reaction abilities.",
-                "quantity": 1
-            },
-            {
-                "name": "disease",
-                "team": "villager",
-                "description": "A villager spreading disease.",
-                "quantity": 1
-            },
-            {
-                "name": "prince",
-                "team": "villager",
-                "description": "A prince with special abilities.",
-                "quantity": 1
-            },
-            {
-                "name": "mayor",
-                "team": "villager",
-                "description": "The mayor of the village.",
-                "quantity": 1
-            },
-            {
-                "name": "pacifist",
-                "team": "villager",
-                "description": "A pacifist who avoids conflict.",
-                "quantity": 1
-            },
-            {
-                "name": "Hunter",
-                "team": "villager",
-                "description": "A hunter skilled in tracking.",
-                "quantity": 1
-            }
+            { "name": "spellCaster", "quantity": 1 },
+            { "name": "disease", "quantity": 1 },
+            { "name": "prince", "quantity": 1 },
+            { "name": "mayor", "quantity": 1 },
+            { "name": "pacifist", "quantity": 1 },
+            { "name": "Hunter", "quantity": 1 }
         ],
         "special": [
-            {
-                "name": "village idiot",
-                "team": "villager",
-                "description": "A village idiot with unique abilities.",
-                "quantity": 1
-            },
-            {
-                "name": "lycan",
-                "team": "villager",
-                "description": "A villager with lichen abilities.",
-                "quantity": 1
-            },
-            {
-                "name": "drunk",
-                "team": "villager",
-                "description": "A drunk villager.",
-                "quantity": 1
-            },
-            {
-                "name": "Cupid",
-                "team": "villager",
-                "description": "Cupid who can make others fall in love.",
-                "quantity": 1
-            },
-            {
-                "name": "old hag",
-                "team": "villager",
-                "description": "An old hag with mysterious powers.",
-                "quantity": 1
-            },
-            {
-                "name": "tax collector",
-                "team": "villager",
-                "description": "A tax collector in the village.",
-                "quantity": 1
-            },
-            {
-                "name": "merchant",
-                "team": "villager",
-                "description": "A merchant trading goods.",
-                "quantity": 1
-            }
+            { "name": "village_idiot", "quantity": 1 },
+            { "name": "lycan", "quantity": 1 },
+            { "name": "drunk", "quantity": 1 },
+            { "name": "Cupid", "quantity": 1 },
+            { "name": "old_hag", "quantity": 1 },
+            { "name": "tax_collector", "quantity": 1 },
+            { "name": "merchant", "quantity": 1 }
         ],
         "knowledge": [
-            {
-                "name": "seer",
-                "team": "villager",
-                "description": "A seer with the ability to foresee events.",
-                "quantity": 1
-            },
-            {
-                "name": "apprentice",
-                "team": "villager",
-                "description": "An apprentice learning from the seer.",
-                "quantity": 1
-            },
-            {
-                "name": "troublemaker",
-                "team": "villager",
-                "description": "A troublemaker causing chaos.",
-                "quantity": 1
-            },
-            {
-                "name": "private_investigator",
-                "team": "villager",
-                "description": "A private investigator uncovering secrets.",
-                "quantity": 1
-            }
+            { "name": "seer", "quantity": 1 },
+            { "name": "apprentice", "quantity": 1 },
+            { "name": "troublemaker", "quantity": 1 },
+            { "name": "private_investigator", "quantity": 1 }
         ],
         "identity": [
-            {
-                "name": "doppelganger",
-                "team": "villager",
-                "description": "A doppelganger that can mimic others.",
-                "quantity": 2
-            },
-            {
-                "name": "witch",
-                "team": "villager",
-                "description": "A witch with magical powers.",
-                "quantity": 1
-            },
-            {
-                "name": "cult_leader",
-                "team": "villager",
-                "description": "A cult leader with followers.",
-                "quantity": 1
-            }
+            { "name": "doppelganger", "quantity": 2 },
+            { "name": "witch", "quantity": 1 },
+            { "name": "cult_leader", "quantity": 1 }
         ],
         "tanner": [
-            {
-                "name": "tanner",
-                "team": "tanner",
-                "description": "A tanner who wins by being killed.",
-                "quantity": 1
-            }
+            { "name": "tanner", "quantity": 1 }
         ],
         "escape": [
-            {
-                "name": "mason",
-                "team": "villager",
-                "description": "A mason with escape abilities.",
-                "quantity": 3
-            },
-            {
-                "name": "tough_guy",
-                "team": "villager",
-                "description": "A tough guy who can withstand attacks.",
-                "quantity": 1
-            }
+            { "name": "mason", "quantity": 3 },
+            { "name": "tough_guy", "quantity": 1 }
         ]
     },
-    "reference_card":{
+    "reference_card": {
         "axis_types": [
             "werewolves",
             "force_of_evil",

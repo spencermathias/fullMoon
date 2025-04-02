@@ -29,10 +29,6 @@ function titleFunction(){
 const socket = io();
 
 let allCards = [];
-fetch('https://fakestoreapi.com/products/1')
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
 
 // Fetch cards.json from the server
 fetch('./data/cards.json')
@@ -125,17 +121,23 @@ function handleChooseGameType() {
  */
 function handleUpdateSelectedCards(cardState) {
     const requestedPlayers = 4; // Example value, replace with actual logic to get the number of players
-    console.log('Selected cards:', cardState);
-    // Hide the title
-    document.getElementById('title').style.display = 'none';
 
+    
+    // Clear the game board
     const gameBoard = document.getElementById('gameBoard');
-    gameBoard.innerHTML = ''; // Clear previous content
+    gameBoard.innerHTML = '';
+    
+    // Add the "Ready" button
+    addReadyButton();
+    
+    // Hide the title
+    document.getElementById('content').style.display = 'none';
 
     // Iterate over each card type
     Object.keys(allCards.role_action_cards).forEach((cardType) => {
         const cardTypeSection = document.createElement('div');
         cardTypeSection.className = 'card-type-section';
+        cardTypeSection.setAttribute('data-card-type', cardType);
 
         // Add a header for the card type
         const cardTypeHeader = document.createElement('h3');
@@ -143,7 +145,7 @@ function handleUpdateSelectedCards(cardState) {
         cardTypeHeader.addEventListener('click', () => {
             // Toggle visibility of the card type section
             const cardContainer = cardTypeSection.querySelector('.card-container');
-            cardContainer.style.display = cardContainer.style.display === 'none' ? 'block' : 'none';
+            cardContainer.style.display = cardContainer.style.display === 'none' ? 'flex' : 'none';
         });
         cardTypeSection.appendChild(cardTypeHeader);
 
@@ -152,33 +154,7 @@ function handleUpdateSelectedCards(cardState) {
         cardContainer.className = 'card-container';
         cardContainer.style.display = 'none'; // Initially collapsed
 
-        // Display selected cards of this type
-        cardState[cardType].forEach((card) => {
-            const cardDetails = allCards.role_action_cards[cardType][allCards.role_cards[card].index];
-            const cardDiv = document.createElement('div');
-            cardDiv.className = 'card';
-
-            const cardName = document.createElement('h4');
-            cardName.innerText = cardDetails.name;
-            cardDiv.appendChild(cardName);
-
-            const cardDescription = document.createElement('p');
-            cardDescription.innerText = cardDetails.description;
-            cardDiv.appendChild(cardDescription);
-
-            cardContainer.appendChild(cardDiv);
-        });
-
-        // Add empty slots for cards that need to be chosen
-        const requiredPlayers = requestedPlayers || 0;
-        const emptySlots = requiredPlayers - selectedCards.length;
-        for (let i = 0; i < emptySlots; i++) {
-            const emptySlot = document.createElement('div');
-            emptySlot.className = 'card empty-slot';
-            emptySlot.innerText = 'Empty Slot';
-            cardContainer.appendChild(emptySlot);
-        }
-
+        populateCardTypeSection(cardContainer, cardType, cardState[cardType], requestedPlayers);
         cardTypeSection.appendChild(cardContainer);
         gameBoard.appendChild(cardTypeSection);
     });
@@ -193,5 +169,200 @@ function handleGameReady(gameState) {
 // Function to handle 'invalidSelection'
 function handleInvalidSelection(message) {
     alert(message);
+}
+
+/**
+ * Populates a given card type section with cards and empty slots.
+ * 
+ * @param {HTMLElement} cardContainer - The container element for the card type.
+ * @param {string} cardType - The type of the card (e.g., "werewolves", "villagers").
+ * @param {Array} selectedCards - The current cards selected for the current card type.
+ * @param {number} requestedPlayers - The number of players required for the game.
+ */
+function populateCardTypeSection(cardContainer, cardType, selectedCards, requestedPlayers) {
+    var emptySlots = allCards.reference_card.values[requestedPlayers][cardType];
+
+    // Display selected cards of this type
+    if (selectedCards) {
+        let i = 0;
+        selectedCards.forEach((card) => {
+            const cardDetails = allCards.role_cards[card];
+            cardDetails["DivIndex"] = i++; // Increment the DivIndex for each card
+
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'card';
+
+            const cardImage = document.createElement('img');
+            cardImage.src = cardDetails.picture;
+            cardImage.alt = cardDetails.name;
+            cardImage.className = 'card-image';
+            cardDiv.appendChild(cardImage);
+
+            const cardName = document.createElement('h4');
+            cardName.innerText = cardDetails.name;
+            cardDiv.appendChild(cardName);
+
+            const cardDescription = document.createElement('p');
+            cardDescription.innerText = cardDetails.description;
+            cardDiv.appendChild(cardDescription);
+
+            // Make the card clickable
+            cardDiv.addEventListener('click', () => {
+                const validOptions = getValidOptionsForCardType(cardType, selectedCards, card);
+                // Check if dropdown and confirm button already exist
+                if (!cardDiv.querySelector('select') && !cardDiv.querySelector('button')) {
+                    const dropdown = document.createElement('select');
+                    validOptions.forEach((card) => {
+                        const option = document.createElement('option');
+                        option.value = card.name;
+                        option.text = card.name;
+                        dropdown.appendChild(option);
+                    });
+
+                    const confirmButton = document.createElement('button');
+                    confirmButton.innerText = 'Confirm';
+                    confirmButton.addEventListener('click', () => {
+                        const selectedCard = dropdown.value;
+                        if (selectedCard) {
+                            const cardIndex = cardDetails.DivIndex;
+                            if (cardIndex !== undefined && cardIndex < selectedCards.length) {
+                                if (selectedCard == "Empty Slot") {
+                                    selectedCards.splice(cardIndex, 1); // Remove the card from the array
+                                }else{ 
+                                    selectedCards[cardIndex] = selectedCard;
+                                }
+                            }
+                            cardContainer.innerHTML = ''; // Clear the cardDiv content
+                            return populateCardTypeSection(cardContainer, cardType, selectedCards, requestedPlayers); // Re-populate the section
+                        }
+                    });
+
+                    cardDiv.appendChild(dropdown);
+                    cardDiv.appendChild(confirmButton);
+                }
+            });
+
+            cardContainer.appendChild(cardDiv);
+        });
+        emptySlots = allCards.reference_card.values[requestedPlayers][cardType] - selectedCards.length;
+    }
+    // Add empty slots for cards that need to be chosen
+    for (let i = 0; i < emptySlots; i++) {
+        const emptySlot = document.createElement('div');
+        emptySlot.className = 'card empty-slot';
+        emptySlot.innerText = 'Empty Slot';
+        emptySlot.addEventListener('click', () => {
+            const validOptions = getValidOptionsForCardType(cardType, selectedCards, null);
+            // Check if dropdown and confirm button already exist
+            if (!emptySlot.querySelector('select') && !emptySlot.querySelector('button')) {
+                const dropdown = document.createElement('select');
+                validOptions.forEach((card) => {
+                    const option = document.createElement('option');
+                    option.value = card.name;
+                    option.text = card.name;
+                    dropdown.appendChild(option);
+                });
+
+                const confirmButton = document.createElement('button');
+                confirmButton.innerText = 'Confirm';
+                confirmButton.addEventListener('click', () => {
+                    const selectedCard = dropdown.value;
+                    if (selectedCard) {
+                        if (selectedCards){
+                            selectedCards.push(selectedCard); // Add the selected card to the array
+                        }else{
+                            selectedCards = [selectedCard]; // Initialize the array with the selected card
+                        }
+                        cardContainer.innerHTML = ''; // Clear the emptySlot content
+                        return populateCardTypeSection(cardContainer, cardType, selectedCards, requestedPlayers); // Re-populate the section
+                    }
+                });
+
+                emptySlot.appendChild(dropdown);
+                emptySlot.appendChild(confirmButton);
+            }
+        });
+        cardContainer.appendChild(emptySlot);
+    }
+}
+
+/**
+ * Returns a list of valid card options for a given card type.
+ * 
+ * This function checks the type of the current card selected and retrieves
+ * all cards of that type that are available in the `allCards` object.
+ * 
+ * @param {string} cardType - The type of the card (e.g., "werewolves", "villagers").
+ * @returns {Array} An array of valid card options for the given card type.
+ */
+function getValidOptionsForCardType(cardType,currentList,currentCard) {
+    if (!allCards.role_action_cards[cardType]) {
+        console.error(`Invalid card type: ${cardType}`);
+        return [];
+    }
+    // sum the number of cards with the same name in the currentList
+    let cardCount = {};
+    if(currentList){
+        currentList.forEach(card => {
+            cardCount[card] = (cardCount[card] || 0) + 1;
+        });
+    }
+    // add the current card to the count
+    if(currentCard){
+        cardCount[currentCard] = (cardCount[currentCard] || 1) - 1;
+    }
+    // Retrieve all cards of the given type
+    const validOptions = allCards.role_action_cards[cardType].filter(card => {
+        return card.quantity - (cardCount[card.name] || 0) > 0; // Ensure the card is available
+    });
+
+    // Add an empty slot option
+    validOptions.push({ name: "Empty Slot" });
+
+    return validOptions; // Return only the names of the valid options
+}
+
+// Add a "Ready" button at the top of the game board
+function addReadyButton() {
+    const gameBoard = document.getElementById('gameBoard');
+
+    // Check if the button already exists
+    if (document.getElementById('readyButton')) return;
+    // Create a container div for the button
+    const buttonContainer = document.createElement('div');
+    buttonContainer.id = 'buttonContainer';
+    buttonContainer.className = 'button-container';
+
+    // Add the container to the game board
+    gameBoard.insertBefore(buttonContainer, gameBoard.firstChild);
+
+    const readyButton = document.createElement('button');
+    readyButton.id = 'readyButton';
+    readyButton.innerText = 'Ready';
+    readyButton.className = 'ready-button';
+
+    // Add click event listener to send selected cards to the server
+    readyButton.addEventListener('click', () => {
+        console.log('Ready button clicked. Sending selected cards to the server.');
+
+        // Collect all selected cards
+        const selectedCards = {};
+        Object.keys(allCards.role_action_cards).forEach((cardType) => {
+            const cardTypeSection = document.querySelector(`.card-type-section[data-card-type="${cardType}"]`);
+            if (cardTypeSection) {
+                const cardContainer = cardTypeSection.querySelector('.card-container');
+                const selectedCardNames = Array.from(cardContainer.querySelectorAll('.card'))
+                    .map((cardDiv) => cardDiv.querySelector('h4').innerText);
+                selectedCards[cardType] = selectedCardNames;
+            }
+        });
+
+        console.log('Selected cards:', selectedCards);
+        // Emit the selected cards to the server
+        socket.emit('clientReady', selectedCards);
+    });
+
+    // Append the ready button to the container
+    buttonContainer.appendChild(readyButton);
 }
 
